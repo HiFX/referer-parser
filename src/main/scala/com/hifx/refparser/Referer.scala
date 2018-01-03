@@ -10,8 +10,6 @@ object Medium extends Enumeration {
   def fromString(medium: String): Medium = {
     this.withName(medium.toUpperCase)
   }
-
-  override def toString: String = super.toString.toLowerCase
 }
 
 import com.hifx.refparser.Medium._
