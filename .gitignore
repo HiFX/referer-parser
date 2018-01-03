@@ -1,2 +1,40 @@
 *.class
 *.log
+
+# sbt specific
+.cache
+.history
+.lib/
+dist/*
+target/*
+target/resolution-cache
+target/streams
+target/scala-*/classes
+target/scala-*/test-classes
+target/scala-2.11/scapegoat-report/
+!target/scala-2.11/src_managed/main/sbt-buildinfo/BuildInfo.scala
+lib_managed/
+project/boot/
+project/plugins/project/
+project/project
+project/target
+
+# Scala-IDE specific
+.scala_dependencies
+.worksheet
+
+
+# IntelliJ
+.idea
+*.iws
+/out/
+.idea_modules/
+
+
+#App specific
+.DS_Store
+spark.log
+*.avro
+*.csv
+*.CSV
+*.jar
