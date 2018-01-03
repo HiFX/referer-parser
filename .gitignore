@@ -38,3 +38,4 @@ spark.log
 *.csv
 *.CSV
 *.jar
+dependency-reduced-pom.xml
