@@ -4,7 +4,7 @@
 
     <groupId>com.hifx.refparser</groupId>
     <artifactId>referer-parser</artifactId>
-    <version>0.3</version>
+    <version>0.6</version>
     <packaging>jar</packaging>
 
     <name>referer-parser</name>
@@ -28,9 +28,9 @@
             <version>0.8.0</version>
         </dependency>
         <dependency>
-            <groupId>io.lemonlabs</groupId>
-            <artifactId>scala-uri_2.11</artifactId>
-            <version>0.5.1</version>
+            <groupId>com.github.anthonynsimon</groupId>
+            <artifactId>jurl</artifactId>
+            <version>v0.3.0</version>
         </dependency>
         <dependency>
             <groupId>org.specs2</groupId>
@@ -91,7 +91,7 @@
             <plugin>
                 <groupId>com.github.github</groupId>
                 <artifactId>site-maven-plugin</artifactId>
-                <version>0.11</version>
+                <version>0.12</version>
                 <configuration>
                     <message>Maven artifacts for ${project.version}</message>  <!-- git commit message -->
                     <noJekyll>true</noJekyll>                                  <!-- disable webpage processing -->
@@ -102,7 +102,7 @@
                         <include>**/*</include>
                     </includes>
                     <repositoryName>referer-parser</repositoryName>      <!-- github repo name -->
-                    <repositoryOwner>HiFX</repositoryOwner>    <!-- github username  -->
+                    <repositoryOwner>saj1th</repositoryOwner>    <!-- github username  -->
                 </configuration>
                 <executions>
                     <!-- run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase -->
@@ -114,9 +114,22 @@
                     </execution>
                 </executions>
             </plugin>
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.7.1</version>
+            </plugin>
+
         </plugins>
     </build>
-
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
     <distributionManagement>
         <repository>
             <id>internal.repo</id>
