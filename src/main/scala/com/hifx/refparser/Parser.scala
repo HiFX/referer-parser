@@ -3,10 +3,12 @@ package com.hifx.refparser
 import java.io.{InputStream, InputStreamReader}
 
 import cats.syntax.either._
-import com.netaporter.uri.Uri
+import com.anthonynsimon.url.URL
 import io.circe.{yaml, _}
 
 import scala.collection.mutable.{HashMap => MMap}
+import scala.collection.JavaConverters._
+
 import scala.util.Try
 
 /**
@@ -19,16 +21,18 @@ case class Parser(refList: MMap[String, RefererLookup]) {
     * takes the referrer and page urls and returns the Referrer object
     */
   def parse(referrer: String, page: String): Referer = {
-    val referrerUrl = Uri.parse(referrer)
-    val pageUrl = Uri.parse(page)
-    val refererChk = referrerUrl.scheme.isEmpty || referrerUrl.host.isEmpty || (!referrerUrl.scheme.get.equals("http") && !referrerUrl.scheme.get.equals("https"))
-    val pageChk = pageUrl.scheme.isEmpty || (!pageUrl.scheme.get.equals("http") && !pageUrl.scheme.get.equals("https"))
+    val referrerUrl = URL.parse(referrer)
+    val pageUrl = URL.parse(page)
+    val refererChk = referrerUrl.getScheme.isEmpty ||
+      referrerUrl.getHost.isEmpty ||
+      (!referrerUrl.getScheme.equals("http") && !referrerUrl.getHost.equals("https"))
+    val pageChk = pageUrl.getScheme.isEmpty || (!pageUrl.getScheme.equals("http") && !pageUrl.getScheme.equals("https"))
     if (refererChk || pageChk) {
       Referer(Medium.fromString("unknown"), "unknown", "")
     } else {
 
-      var referrer = lookupReferer(referrerUrl.host.get, referrerUrl.path, includePath = true)
-      if (referrer.isEmpty) referrer = lookupReferer(referrerUrl.host.get, referrerUrl.path, includePath = false)
+      var referrer = lookupReferer(referrerUrl.getHost, referrerUrl.getPath, includePath = true)
+      if (referrer.isEmpty) referrer = lookupReferer(referrerUrl.getHost, referrerUrl.getHost, includePath = false)
 
       if (referrer.isEmpty) {
         Referer(Medium.fromString("unknown"), "unknown", "")
@@ -47,14 +51,12 @@ case class Parser(refList: MMap[String, RefererLookup]) {
   /**
     * Extracts the search terms from the query string
     */
-  private def extractSearchTerm(referrerUrl: Uri, possibleParameters: List[String]): Option[String] = {
-    val paramMap = referrerUrl.query.paramMap
+  private def extractSearchTerm(referrerUrl: URL, possibleParameters: List[String]): Option[String] = {
+    val paramMap = referrerUrl.getQueryPairs
     var searchTeam: Option[String] = None
-    for (pair <- paramMap) {
-      val name: String = pair._1
-      val value: Seq[String] = pair._2.map(_.replace("+", " "))
+    for ((name, value) <- paramMap.asScala) {
       if (possibleParameters.contains(name)) {
-        searchTeam = Some(value.mkString(" "))
+        searchTeam = Some(value)
       }
     }
     searchTeam
@@ -120,12 +122,13 @@ object Parser {
       val referer = new MMap[String, RefererLookup]
 
       provdList.foreach {
-        case (medium, sources) => sources.foreach {
-          case (source, values) =>
-            val params = values.getOrElse("parameters", Nil)
-            val domains = values.getOrElse("domains", Nil)
-            domains.foreach(domain => referer += (domain -> RefererLookup(medium, source, params)))
-        }
+        case (medium, sources) =>
+          sources.foreach {
+            case (source, values) =>
+              val params = values.getOrElse("parameters", Nil)
+              val domains = values.getOrElse("domains", Nil)
+              domains.foreach(domain => referer += (domain -> RefererLookup(medium, source, params)))
+          }
       }
       Parser(referer)
     }
