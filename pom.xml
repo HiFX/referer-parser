@@ -4,7 +4,7 @@
 
     <groupId>com.hifx.refparser</groupId>
     <artifactId>referer-parser</artifactId>
-    <version>0.6</version>
+    <version>0.7</version>
     <packaging>jar</packaging>
 
     <name>referer-parser</name>
@@ -102,7 +102,7 @@
                         <include>**/*</include>
                     </includes>
                     <repositoryName>referer-parser</repositoryName>      <!-- github repo name -->
-                    <repositoryOwner>HiFX</repositoryOwner>    <!-- github username  -->
+                    <repositoryOwner>saj1th</repositoryOwner>    <!-- github username  -->
                 </configuration>
                 <executions>
                     <!-- run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase -->

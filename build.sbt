@@ -1,6 +1,6 @@
 name := "referer-parser"
 
-version := "0.6"
+version := "0.7"
 
 scalaVersion := "2.11.12"
 
