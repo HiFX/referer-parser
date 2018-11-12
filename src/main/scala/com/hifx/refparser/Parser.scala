@@ -1,6 +1,7 @@
 package com.hifx.refparser
 
 import java.io.{InputStream, InputStreamReader}
+import java.net.URLDecoder
 
 import cats.syntax.either._
 import com.anthonynsimon.url.URL
@@ -8,7 +9,6 @@ import io.circe.{yaml, _}
 
 import scala.collection.mutable.{HashMap => MMap}
 import scala.collection.JavaConverters._
-
 import scala.util.Try
 
 /**
@@ -25,14 +25,14 @@ case class Parser(refList: MMap[String, RefererLookup]) {
     val pageUrl = URL.parse(page)
     val refererChk = referrerUrl.getScheme.isEmpty ||
       referrerUrl.getHost.isEmpty ||
-      (!referrerUrl.getScheme.equals("http") && !referrerUrl.getHost.equals("https"))
+      (!referrerUrl.getScheme.equals("http") && !referrerUrl.getScheme.equals("https"))
     val pageChk = pageUrl.getScheme.isEmpty || (!pageUrl.getScheme.equals("http") && !pageUrl.getScheme.equals("https"))
     if (refererChk || pageChk) {
       Referer(Medium.fromString("unknown"), "unknown", "")
     } else {
 
       var referrer = lookupReferer(referrerUrl.getHost, referrerUrl.getPath, includePath = true)
-      if (referrer.isEmpty) referrer = lookupReferer(referrerUrl.getHost, referrerUrl.getHost, includePath = false)
+      if (referrer.isEmpty) referrer = lookupReferer(referrerUrl.getHost, referrerUrl.getPath, includePath = false)
 
       if (referrer.isEmpty) {
         Referer(Medium.fromString("unknown"), "unknown", "")
@@ -54,9 +54,10 @@ case class Parser(refList: MMap[String, RefererLookup]) {
   private def extractSearchTerm(referrerUrl: URL, possibleParameters: List[String]): Option[String] = {
     val paramMap = referrerUrl.getQueryPairs
     var searchTeam: Option[String] = None
+
     for ((name, value) <- paramMap.asScala) {
       if (possibleParameters.contains(name)) {
-        searchTeam = Some(value)
+        searchTeam = Some(URLDecoder.decode(value))
       }
     }
     searchTeam
@@ -72,7 +73,7 @@ case class Parser(refList: MMap[String, RefererLookup]) {
       refList.get(refererHost)
     }
 
-    if (referer.isEmpty && includePath) {
+    if (referer.isEmpty && includePath && !(refererPath == null)) {
       val pathElements = refererPath.split("/")
       if (pathElements.length > 1) {
         referer = refList.get(refererHost + "/" + pathElements(1))
