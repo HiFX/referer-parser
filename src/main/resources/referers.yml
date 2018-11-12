@@ -31,6 +31,24 @@ internal:
       - us.manoramaonline.com
       - europe.manoramaonline.com
       - oceania.manoramaonline.com
+      - m.manoramaonline.com
+      - food.manoramaonline.com
+      - travel.manoramaonline.com
+      - advt.manoramaonline.com
+      - specials.manoramaonline.com
+      - services.manoramaonline.com
+      - epaper.manoramaonline.com
+      - children.manoramaonline.com
+      - eweekly.manoramaonline.com
+      - evanitha.manoramaonline.com
+      - ebhashaposhini.manoramaonline.com
+      - esampadyam.manoramaonline.com
+      - ekarshakasree.manoramaonline.com
+      - eweek.manoramaonline.com
+      - efasttrack.manoramaonline.com
+      - etheman.manoramaonline.com
+      - ewatchtime.manoramaonline.com
+
 
 
 unknown:
@@ -164,7 +182,7 @@ email:
 
   QQ Mail:
     domains:
-      - mail.qq.com  
+      - mail.qq.com
 
   Seznam Mail:
     domains:
@@ -485,7 +503,7 @@ social:
   Pocket:
     domains:
       - getpocket.com
-      
+
   ITU Sozluk:
     domains:
       - itusozluk.com
@@ -516,7 +534,7 @@ social:
 
   Donanimhaber:
     domains:
-      - donanimhaber.com 
+      - donanimhaber.com
 
   Disqus:
     domains:
@@ -3182,7 +3200,7 @@ search:
     domains:
       - busca.orange.es
       - search.orange.co.uk
-      - lemoteur.orange.fr   
+      - lemoteur.orange.fr
 
   Paperball:
     parameters:
