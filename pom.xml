@@ -4,7 +4,7 @@
 
     <groupId>com.hifx.refparser</groupId>
     <artifactId>referer-parser</artifactId>
-    <version>0.7</version>
+    <version>0.8</version>
     <packaging>jar</packaging>
 
     <name>referer-parser</name>
