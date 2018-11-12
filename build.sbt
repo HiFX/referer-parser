@@ -14,7 +14,13 @@ libraryDependencies ++= {
   Seq(
     "io.circe" %% "circe-yaml" % V.circeYaml,
     "io.circe" %% "circe-generic" % V.circeGeneric,
-    "com.github.anthonynsimon" %% "jurl" % V.jUrl,
+    "com.github.anthonynsimon" % "jurl" % V.jUrl,
     "org.specs2" %% "specs2" % V.specs2 % "test"
   )
+
 }
+
+resolvers ++= Seq(
+  Resolver.mavenLocal
+)
+assemblyOutputPath in assembly := file(s"""./${artifact.value.name}-${version.value}.jar""")

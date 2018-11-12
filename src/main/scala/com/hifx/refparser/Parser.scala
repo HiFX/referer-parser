@@ -21,6 +21,10 @@ case class Parser(refList: MMap[String, RefererLookup]) {
     * takes the referrer and page urls and returns the Referrer object
     */
   def parse(referrer: String, page: String): Referer = {
+    if (referrer.equalsIgnoreCase(""))
+    {
+      return Referer(Medium.fromString("unknown"), "unknown", "")
+    }
     val referrerUrl = URL.parse(referrer)
     val pageUrl = URL.parse(page)
     val refererChk = referrerUrl.getScheme.isEmpty ||
